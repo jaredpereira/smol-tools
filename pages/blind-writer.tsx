@@ -28,6 +28,7 @@ const BlindWriter = () => {
     <>
       <span style={TitleStyle}>BLIND WRITER</span>
       <textarea
+        autoFocus
         spellCheck={false}
         value={text}
         onChange={(e) => {
