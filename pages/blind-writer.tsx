@@ -20,7 +20,7 @@ const BlindWriter = () => {
   }, [timerActive]);
 
   useEffect(() => {
-    if (words > wordGoal) return setTimerActive(false);
+    if (words > wordGoal || words === 0) return setTimerActive(false);
     if (!timerActive) setTimerActive(true);
   }, [text, words]);
 
