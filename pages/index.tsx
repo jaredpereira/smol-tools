@@ -4,9 +4,7 @@ const Home: NextPage = () => {
   return (
     <ul>
       <li>
-        <Link href="/blind-writer">
-          <a>blind-writer</a>
-        </Link>
+        <Link href="/blind-writer">blind-writer</Link>
       </li>
     </ul>
   );
