@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 const BlindWriter = () => {
   const [text, setText] = useState("");
-  let [title, setTitle] = useState("");
   let [wordGoal, setWordGoal] = useState(750);
   let words = text.match(/\S+/g)?.length || 0;
   let [time, setTime] = useState(0);
@@ -25,7 +24,13 @@ const BlindWriter = () => {
   }, [text, words]);
 
   return (
-    <>
+    <div
+      style={{
+        height: "100%",
+        display: "grid",
+        gridTemplateRows: "1fr auto",
+      }}
+    >
       <span style={TitleStyle}>BLIND WRITER</span>
       <textarea
         autoFocus
@@ -45,14 +50,6 @@ const BlindWriter = () => {
         <div style={StatusBarStyle}>
           <Timer seconds={time} />
           <Words words={words} wordGoal={wordGoal} setWordGoal={setWordGoal} />
-          <input
-            style={TitleInputStyle}
-            type="text"
-            value={title}
-            spellCheck={false}
-            placeholder="title / prompt"
-            onChange={(e) => setTitle(e.currentTarget.value)}
-          />
           <button
             style={{
               ...ButtonStyle,
@@ -73,7 +70,7 @@ const BlindWriter = () => {
           </button>
         </div>
       </Counter>
-    </>
+    </div>
   );
 };
 
@@ -112,7 +109,7 @@ const Words = (props: {
           background: "inherit",
           color: "inherit",
           border: "none",
-          width: "48px",
+          width: "96px",
         }}
       />
     </div>
@@ -130,30 +127,31 @@ const TextareaStyle = {
   margin: "8px auto",
   display: "block",
   padding: "16px",
+  paddingLeft: "32px",
   border: "none",
   width: "100%",
   maxWidth: "800px",
+  height: "100%",
   backgroundColor: "inherit",
-  height: "calc(98vh - 16px)",
 } as const;
 
 const CounterStyle = {
-  height: "2vh",
   backgroundColor: "black",
   color: "grey",
 };
 
 const StatusBarStyle = {
-  display: "grid",
+  display: "flex",
+  flexDirection: "row",
   width: "100vw",
   alignItems: "baseline",
   paddingLeft: "4px",
-  gridTemplateColumns:
-    "max-content max-content 1fr max-content max-content max-content",
   gridGap: "8px",
-};
+  fontSize: "20px",
+} as const;
 
 const ButtonStyle = {
+  fontSize: "20px",
   background: "none",
   border: "none",
   color: "grey",
@@ -169,10 +167,4 @@ const TitleStyle = {
   fontFamily: "monospace",
 } as const;
 
-const TitleInputStyle = {
-  color: "inherit",
-  border: "none",
-  background: "inherit",
-  width: "100%",
-};
 export default BlindWriter;
