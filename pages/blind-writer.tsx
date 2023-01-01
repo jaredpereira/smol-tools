@@ -38,7 +38,6 @@ const BlindWriter = () => {
         value={text}
         onChange={(e) => {
           setText(e.currentTarget.value);
-          if (!timerActive) setTimerActive(true);
         }}
         style={{
           ...TextareaStyle,
