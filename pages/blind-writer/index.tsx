@@ -1,4 +1,32 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
+
+export type Item = {
+  content: string;
+  date: string;
+};
+const App = () => {
+  return (
+    <Layout>
+      <BlindWriter />
+    </Layout>
+  );
+};
+export const Layout = (props: { children: React.ReactNode }) => {
+  return (
+    <div
+      style={{
+        height: "100%",
+        display: "grid",
+        gridTemplateRows: "auto 1fr auto",
+      }}
+    >
+      <span style={TitleStyle}>BLIND WRITER</span>
+      <Nav />
+      {props.children}
+    </div>
+  );
+};
 
 const BlindWriter = () => {
   const [text, setText] = useState("");
@@ -24,14 +52,7 @@ const BlindWriter = () => {
   }, [text, words]);
 
   return (
-    <div
-      style={{
-        height: "100%",
-        display: "grid",
-        gridTemplateRows: "1fr auto",
-      }}
-    >
-      <span style={TitleStyle}>BLIND WRITER</span>
+    <>
       <textarea
         autoFocus
         spellCheck={false}
@@ -67,8 +88,47 @@ const BlindWriter = () => {
           >
             reset
           </button>
+          {words > wordGoal ? (
+            <button
+              style={ButtonStyle}
+              onClick={() => {
+                let items = JSON.parse(localStorage.getItem("items") || "[]");
+                let date = new Date().toISOString();
+                let data = {
+                  date,
+                  content: text,
+                };
+                localStorage.setItem(
+                  "items",
+                  JSON.stringify([...items, { date }])
+                );
+                localStorage.setItem(date, JSON.stringify(data));
+                setText("");
+                setTime(0);
+                setTimerActive(false);
+              }}
+            >
+              save
+            </button>
+          ) : null}
         </div>
       </Counter>
+    </>
+  );
+};
+
+const Nav = () => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "16px",
+        margin: "0 auto",
+      }}
+    >
+      <Link href="/blind-writer">write</Link>
+      <Link href="/blind-writer/list">list</Link>
     </div>
   );
 };
@@ -166,4 +226,4 @@ const TitleStyle = {
   fontFamily: "monospace",
 } as const;
 
-export default BlindWriter;
+export default App;
