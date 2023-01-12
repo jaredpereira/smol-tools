@@ -34,6 +34,13 @@ const BlindWriter = () => {
   let words = text.match(/\S+/g)?.length || 0;
   let [time, setTime] = useState(0);
   let [timerActive, setTimerActive] = useState(false);
+  let [peeking, setPeeking] = useState(false);
+  useEffect(() => {
+    if (peeking)
+      setTimeout(() => {
+        setPeeking(false);
+      }, 1000);
+  }, [peeking]);
 
   useEffect(() => {
     if (timerActive) {
@@ -62,8 +69,8 @@ const BlindWriter = () => {
         }}
         style={{
           ...TextareaStyle,
-          fontFamily: words > wordGoal ? "serif" : "Flow Block",
-          fontSize: words > wordGoal ? "18px" : "16.5px",
+          fontFamily: words > wordGoal || peeking ? "serif" : "Flow Block",
+          fontSize: words > wordGoal || peeking ? "18px" : "16.5px",
         }}
       />
       <Counter completed={words} wordGoal={wordGoal}>
@@ -77,6 +84,14 @@ const BlindWriter = () => {
             onClick={() => setTimerActive(!timerActive)}
           >
             {timerActive ? "pause" : "start"}
+          </button>
+          <button
+            style={ButtonStyle}
+            onMouseOver={() => {
+              setPeeking(true);
+            }}
+          >
+            peek
           </button>
           <button
             style={ButtonStyle}
